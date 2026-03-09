@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Route Delay Forecast — Costco Wholesale</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/static/css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <h1 class="logo">Costco Wholesale</h1>
+      <p class="tagline">Route Delay Forecasting — Tracy Depot to US locations</p>
+    </div>
+  </header>
+
+  <main class="main">
+    <section class="hero">
+      <h2>Routes & delay by model</h2>
+      <p>Select a <strong>destination</strong> (Costco US location). We use Google Directions to get alternative routes, then predict <strong>Ridge</strong>, <strong>Random Forest</strong>, and <strong>XGBoost</strong> delay % along each route using weather data.</p>
+    </section>
+
+    <section class="route-select">
+      <h3>Source & destination</h3>
+      <div class="route-fields">
+        <div class="field-group">
+          <label>Source</label>
+          <p class="field-readonly" id="source-display">Tracy Depot, CA (37.7397, -121.4252)</p>
+        </div>
+        <div class="field-group">
+          <label for="destination">Destination</label>
+          <select id="destination" class="field-select">
+            <option value="">— Load destinations —</option>
+          </select>
+        </div>
+      </div>
+      <div class="route-fields route-fields-delivery">
+        <div class="field-group">
+          <label for="journey-start-date">Journey start date</label>
+          <input type="date" id="journey-start-date" name="journey_start_date" class="field-input" />
+        </div>
+        <div class="field-group">
+          <label for="journey-start-time">Journey start time</label>
+          <input type="time" id="journey-start-time" name="journey_start_time" class="field-input" value="08:00" />
+        </div>
+      </div>
+      <button type="button" id="routes-btn" class="btn btn-primary">Get routes</button>
+    </section>
+
+    <div id="loader-overlay" class="loader-overlay" aria-hidden="true" role="status" aria-live="polite">
+      <div class="loader-backdrop"></div>
+      <div class="loader-content">
+        <div class="loader-spinner"></div>
+        <p class="loader-message" id="loader-message">Loading…</p>
+        <ol class="loader-steps" id="loader-steps" aria-hidden="true"></ol>
+      </div>
+    </div>
+
+    <section class="map-section" id="map-section" aria-hidden="true">
+      <h3>Route map</h3>
+      <div id="map" class="map-container"></div>
+      <div class="map-actions">
+        <button type="button" id="predict-delay-btn" class="btn btn-secondary" disabled>Predict delay</button>
+      </div>
+    </section>
+
+    <section class="routes-results" id="routes-results" aria-hidden="true">
+      <h3>Routes and delay</h3>
+      <p class="results-intro">Pitstops every ~20 miles; nearest weather station per pitstop; delay predicted per chunk then aggregated. Choose a model to view its delay.</p>
+      <div class="model-select-wrap">
+        <label for="model-select">Prediction model</label>
+        <select id="model-select" class="field-select model-select" aria-label="Select model to display">
+          <option value="Ridge">Ridge</option>
+          <option value="Random Forest">Random Forest</option>
+          <option value="XGBoost">XGBoost</option>
+        </select>
+      </div>
+      <div id="route-cards" class="route-cards"></div>
+    </section>
+
+    <p class="demo-link-wrap"><a href="/demo" class="demo-link">See how delay works with custom weather →</a></p>
+
+    <section class="error-toast" id="error-toast" role="alert" aria-hidden="true"></section>
+  </main>
+
+  <footer class="site-footer">
+    <p>Costco Route Delay Forecasting — Tracy Depot to US locations — Ridge, Random Forest, XGBoost</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="/static/js/app.js"></script>
+</body>
+</html>
